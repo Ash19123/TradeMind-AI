@@ -1,0 +1,200 @@
+# TradeMind – AI Powered Stock Market Prediction Platform
+
+TradeMind is an AI-powered stock market analysis platform currently under active development. The project aims to help users make informed investment decisions by combining real-time market data, machine learning, and financial indicators into a single intelligent dashboard.
+
+This repository currently contains the backend built using **Spring Boot**, which exposes REST APIs for retrieving live stock market data. The long-term vision is to integrate a Python-based machine learning engine capable of generating BUY, SELL, and HOLD recommendations based on historical market trends and technical indicators.
+
+---
+
+# Current Features
+
+## Spring Boot Backend
+
+- Built using Spring Boot 3.5
+- Maven project structure
+- Layered architecture following industry standards
+- RESTful API development
+- Dependency Injection using Spring Framework
+
+---
+
+## Live Stock Data
+
+The backend currently retrieves real-time stock prices using the Finnhub Stock Market API.
+
+Users can request data for any valid stock ticker, for example:
+
+```
+GET /stock/AAPL
+```
+
+or
+
+```
+GET /stock/TSLA
+```
+
+The API returns structured JSON containing:
+
+- Stock ticker
+- Company identifier
+- Current market price
+- Daily price change
+- Basic BUY / SELL / HOLD signal
+
+Example Response:
+
+```json
+{
+    "ticker": "TSLA",
+    "company": "TSLA",
+    "price": 374.30,
+    "change": -6.54,
+    "signal": "SELL"
+}
+```
+
+---
+
+# 🏗 Current Architecture
+
+```
+Browser / Client
+        │
+        ▼
+Spring Boot REST API
+        │
+        ▼
+Controller Layer
+        │
+        ▼
+Service Layer
+        │
+        ▼
+MarketDataService
+        │
+        ▼
+Finnhub REST API
+```
+
+The project follows a layered architecture to ensure modularity and maintainability.
+
+---
+
+# 📂 Project Structure
+
+```
+src
+│
+├── controller
+│      StockController.java
+│      HealthController.java
+│
+├── service
+│      StockService.java
+│      MarketDataService.java
+│
+├── model
+│      Stock.java
+│
+├── dto
+│      MarketQuote.java
+│
+├── config
+│      AppConfig.java
+│
+└── TradeMindApplication.java
+```
+
+---
+
+# 🧠 Technologies Used
+
+- Java 21
+- Spring Boot
+- Spring Web
+- Maven
+- REST APIs
+- Dependency Injection
+- Finnhub Stock API
+- Eclipse IDE
+
+---
+
+# 🔍 Current Workflow
+
+1. User requests stock data.
+2. Spring Boot receives the request.
+3. The controller delegates processing to the service layer.
+4. MarketDataService calls the Finnhub API.
+5. JSON response is automatically converted into Java objects.
+6. TradeMind generates a preliminary BUY / SELL / HOLD signal.
+7. The backend returns a structured JSON response.
+
+---
+
+# 📌 Current Limitations
+
+At this stage, the project provides:
+
+- Live stock prices
+- Daily price movement
+- Basic placeholder BUY / SELL / HOLD logic
+
+The recommendation engine is **not yet powered by Artificial Intelligence** and currently uses a simple rule based on daily price movement.
+
+---
+
+# 🚀 Roadmap
+
+## Phase 1 ✅
+- Spring Boot Backend
+- REST APIs
+- Live Stock Data Integration
+
+## Phase 2 🚧
+- Historical Stock Market Data
+- PostgreSQL Database Integration
+- Persistent Data Storage
+
+## Phase 3
+- Technical Indicators
+    - SMA
+    - EMA
+    - RSI
+    - MACD
+    - Bollinger Bands
+
+## Phase 4
+- Python Machine Learning Engine
+- Stock Price Prediction
+- AI BUY / SELL / HOLD Recommendations
+
+## Phase 5
+- React Dashboard
+- Interactive Charts
+- Portfolio Tracking
+- Watchlists
+- Prediction Visualizations
+
+---
+
+# 🎯 Vision
+
+TradeMind aims to become a complete AI-assisted stock market analysis platform capable of combining:
+
+- Real-time market data
+- Historical trend analysis
+- Machine learning predictions
+- Technical indicators
+- Interactive dashboards
+
+to help investors make data-driven decisions.
+
+---
+
+## 📌 Project Status
+
+🚧 Currently under active development.
+
+This repository is being built publicly as a learning journey, with continuous improvements, feature additions, and architecture refinements.
