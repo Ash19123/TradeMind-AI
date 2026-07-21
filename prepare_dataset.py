@@ -1,0 +1,66 @@
+import os
+import pandas as pd
+from ta.trend import SMAIndicator, EMAIndicator, MACD
+from ta.momentum import RSIIndicator
+from ta.volatility import BollingerBands
+
+
+def prepare_dataset(ticker):
+
+    # Remove .NS if present
+    ticker = ticker.replace(".NS", "")
+
+    file_path = f"data/{ticker}.csv"
+
+    if not os.path.exists(file_path):
+        print(f"Dataset not found: {file_path}")
+        return False
+
+    df = pd.read_csv(file_path)
+
+    # Make column names lowercase
+    df.columns = [col.lower().replace(" ", "_") for col in df.columns]
+
+    # Technical Indicators
+    df["sma20"] = SMAIndicator(df["close"], window=20).sma_indicator()
+
+    df["sma50"] = SMAIndicator(df["close"], window=50).sma_indicator()
+
+    df["ema20"] = EMAIndicator(df["close"], window=20).ema_indicator()
+
+    df["rsi"] = RSIIndicator(df["close"]).rsi()
+
+    macd = MACD(df["close"])
+
+    df["macd"] = macd.macd()
+
+    bb = BollingerBands(df["close"])
+
+    df["bb_high"] = bb.bollinger_hband()
+
+    df["bb_low"] = bb.bollinger_lband()
+
+    # Daily Return
+    df["daily_return"] = df["close"].pct_change()
+
+    # Target
+    df["target"] = (df["close"].shift(-1) > df["close"]).astype(int)
+
+    # Remove incomplete rows
+    df.dropna(inplace=True)
+
+    output = f"data/{ticker}_prepared.csv"
+
+    df.to_csv(output, index=False)
+
+    print(f"Dataset saved to {output}")
+
+    return True
+
+
+if __name__ == "__main__":
+
+    ticker = input("Enter NSE Stock Symbol: ").upper()
+
+    prepare_dataset(ticker)
+
